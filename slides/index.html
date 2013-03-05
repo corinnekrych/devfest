@@ -98,9 +98,9 @@
         <h2>Grails Plugin System</h2>
 		<div style="float: left; font-size: 25px; text-align: left; display: inline-block; width: 50%">
           <div style="text-align: left;"><br/><br/>
-		    <b>. Focus on the domain, rather than technology</b></br>
-		    <b>. Rapid prototyping</b><br/>
-		    <b>. Adaptable architecture</b><br/>
+		    <b>. 1000 plugins</b></br>
+		    <b>. Modularized app architecture</b><br/>
+		    <b>. Reuse established Java libraries</b><br/>
 		  </div>
 		</div>
         <div style="float:right;text-align:right;display:inline-block;">
@@ -108,269 +108,35 @@
         </div>
       </div>
 
-
-      <div id="canvas-scenery" class="step slide" data-x="3943" data-y="483" data-scale="0.6">
-        <h2>Draw background!</h2>
-        <p>I want to see some kind of grid</a></p>
-        <p>Edit <a href="../canvas/ktDrawBackground.js">ktDrawBackground.js</a></p>
-        <p>Test in <a href="../canvas/background.html">background.html</a></p>
-        <canvas id="backgroundcanvas1" width="300" height="300" style="position: absolute; bottom: 1em; left: 1em; box-shadow: 1px 1px 12px #555"></canvas>
-        <canvas id="backgroundcanvas2" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
-        <script>
-(function () {
-  var canvas1 = document.getElementById('backgroundcanvas1');
-  var ctx1 = canvas1.getContext('2d');
-  var canvas2 = document.getElementById('backgroundcanvas2');
-  var ctx2 = canvas2.getContext('2d');
-  var grid = 10;
-  ctx2.translate(canvas2.width / (grid * 2), canvas2.height / (grid * 2));
-  for (var i = 0; i < grid; i++) {
-    for (var j = 0; j < grid; j++) {
-      ctx1.beginPath();
-      ctx1.fillStyle = ((i + j) % 2 === 0) ? 'red' : 'blue';
-      ctx1.rect(i * canvas1.width / grid, j * canvas1.height / grid, canvas1.width / grid, canvas1.height / grid);
-      ctx1.fill();
-
-      ctx2.beginPath();
-      ctx2.strokeStyle = 'green';
-      ctx2.moveTo(i * canvas2.width / grid, 0);
-      ctx2.lineTo(i * canvas2.width / grid, (grid - 1) * canvas2.height / grid);
-      ctx2.moveTo(0, j * canvas2.height / grid);
-      ctx2.lineTo((grid - 1) * canvas2.width / grid, j * canvas2.height / grid);
-      ctx2.stroke();
-    }
-  }
-})();
-        </script>
+      <div id="groovy1" class="step slide" data-x="3943" data-y="483" data-scale="0.6">
+        <h2>Groovy</h2>
+Less and more expressive code
+• Mix Java & Groovy
+• Dynamic language for changing requirements
+• Compiles to Java bytecode
+• „Relaxed“ learning-curve for Java programmers
       </div>
 
       <div id="canvas-origin" class="step slide" data-x="3283" data-y="483" data-scale="0.6">
         <h2>Playing with origin</h2>
-        <div class="livedemo">
-          <pre><code class="language-javascript">ctx.save();
 
-ctx.translate(250, 150);
-ctx.rotate(Math.PI / 6);
-ctx.scale(2, 2);
-
-ctx.beginPath();
-ctx.rect(-50, -50, 100, 100);
-
-ctx.lineWidth = 5;
-ctx.strokeStyle = 'green';
-ctx.fillStyle = 'red';
-ctx.fill();
-ctx.stroke();
-
-ctx.restore();</pre></code>
-          <canvas width="400" height="300"></canvas>
-        </div>
       </div>
 
       <div id="canvas-bitmaps" class="step slide" data-x="2623" data-y="483" data-scale="0.6">
         <h2>Include a bitmap</h2>
-        <div class="livedemo">
-          <pre><code class="language-javascript">var image = new Image();
-image.onload = function () {
-  ctx.save();
-  ctx.translate(150, 150);
-  ctx.rotate(Math.PI / 8);
-  ctx.scale(2, 2);
-  ctx.drawImage(image, -16, -16, 32, 32)
-  ctx.restore();
-};
-image.src = 'images/tree.png';</pre></code>
-          <canvas width="300" height="250"></canvas>
-        </div>
       </div>
 
       <div id="canvas-singleframe" class="step slide" data-x="1963" data-y="483" data-scale="0.6">
         <h2>Draw single frame!</h2>
-        <p>I want to see the players and obstacles</a></p>
-        <p>Edit <a href="../canvas/ktDrawFrame.js">ktDrawFrame.js</a></p>
-        <p>Test in <a href="../canvas/frame.html">frame.html</a></p>
-        <pre style="position: absolute; bottom: 1em; left: 1em;"><code id="framecontent" class="language-javascript">{
-  franklin: {
-    role: 'turtle1', x: 5, y: 6,
-    rotation: Math.PI / 4
-  },
-  tree: {
-    role: 'tree', x: 2, y: 2,
-    rotation: 0
-  }
-}</pre></code>
-        <canvas id="framecanvas" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
-        <script>
-(function () {
-  var canvas = document.getElementById('framecanvas');
-  var ctx = canvas.getContext('2d');
-  var grid = 10;
-  ctx.scale(canvas.width / grid, canvas.height / grid);
-  ctx.translate(1/2, 1/2);
-  for (var i = 0; i < grid; i++) {
-    for (var j = 0; j < grid; j++) {
-      ctx.beginPath();
-      ctx.lineWidth = 0.01;
-      ctx.strokeStyle = 'green';
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i, grid - 1);
-      ctx.moveTo(0, j);
-      ctx.lineTo(grid - 1, j);
-      ctx.stroke();
-    }
-  }
-
-  function draw(object) {
-    var img = new Image();
-    img.onload = function () {
-      ctx.save();
-      ctx.translate(object.x, grid - 1 - object.y);
-      ctx.rotate(object.rotation);
-      ctx.drawImage(img, -1/2, -1/2, 1, 1);
-      ctx.restore();
-    };
-    img.src = 'images/' + object.role + '.png';
-  }
-  var objects = eval('(' + document.getElementById('framecontent').innerHTML + ')');
-  for (var name in objects) {
-    if (objects.hasOwnProperty(name)) {
-      draw(objects[name]);
-    }
-  }
-})();
-        </script>
       </div>
-
-      <div id="canvas-animationbackground" class="step slide" data-x="1963" data-y="3" data-scale="0.6">
+      
+	  <div id="canvas-animationbackground" class="step slide" data-x="1963" data-y="3" data-scale="0.6">
         <h2>How to animate</h2>
-        <pre><code class="language-javascript">var duration = 1000;
-
-var from = { x: 1, y: 1 };
-var to = { x: 3, y: 4 };
-
-function computeProgress() {
-  return (Date.now() - startTime) / duration;
-}
-
-function draw(progress) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawGrid();
-  drawAt(
-    from.x + (to.x - from.x) * progress,
-    from.y + (to.y - from.y) * progress
-  );
-}</code></pre>
       </div>
-
-      <div id="canvas-requestanimationframe" class="step slide" data-x="2623" data-y="3" data-scale="0.6">
-        <h2>requestAnimationFrame</h2>
-          <pre><code class="language-javascript">function iterate() {
-  var progress = computeProgress();
-  if (progress > 1) {
-    draw(1);
-  } else {
-    window.requestAnimationFrame(iterate);
-    draw(progress);
-  }
-}
-window.requestAnimationFrame(iterate);</pre></code>
-      </div>
-
+     <div id="canvas-requestanimationframe" class="step slide" data-x="2623" data-y="3" data-scale="0.6">
+     </div>
       <div id="canvas-animation" class="step slide" data-x="3283" data-y="3" data-scale="0.6">
         <h2>Draw an animation!</h2>
-        <p>I want to see the players moving</a></p>
-        <p>Edit <a href="../canvas/ktAnimate.js">ktDrawFrame.js</a></p>
-        <p>Test in <a href="../canvas/animate.html">frame.html</a></p>
-        <pre style="position: absolute; bottom: 1em; left: 1em;"><code id="animationcontent" class="language-javascript">{
-  franklin: {
-    role: 'turtle1', 
-    from: { x: 8, y: 6,
-      rotation: Math.PI },
-    to: { x: 1, y: 6,
-      rotation: 3 * Math.PI }
-  }
-}</pre></code>
-        <canvas id="animationcanvas" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
-        <script>
-(function () {
-  var canvas = document.getElementById('animationcanvas');
-  var ctx = canvas.getContext('2d');
-  var grid = 10;
-  ctx.scale(canvas.width / grid, canvas.height / grid);
-  ctx.translate(1/2, 1/2);
-  
-  function drawGrid() {
-    for (var i = 0; i < grid; i++) {
-      for (var j = 0; j < grid; j++) {
-        ctx.beginPath();
-        ctx.lineWidth = 0.01;
-        ctx.strokeStyle = 'green';
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, grid - 1);
-        ctx.moveTo(0, j);
-        ctx.lineTo(grid - 1, j);
-        ctx.stroke();
-      }
-    }
-  }
-
-  var images = {};
-  function draw(role, place) {
-    if (!images[role]) {
-      images[role] = new Image();
-      images[role].src = 'images/' + role + '.png';
-    }
-    ctx.save();
-    ctx.translate(place.x, grid - 1 - place.y);
-    ctx.rotate(place.rotation);
-    ctx.drawImage(images[role], -1/2, -1/2, 1, 1);
-    ctx.restore();
-  }
-
-  var duration = 3000;
-  function animate(content, callback) {
-    var startTime = Date.now();
-    function computeProgress() {
-      return (Date.now() - startTime) / duration;
-    }
-    function average(from, to, progress) {
-      return from + (to - from) * progress;
-    }
-    function drawAll(progress) {
-      var o;
-      for (var name in content) {
-        if (content.hasOwnProperty(name)) {
-          o = content[name];
-          draw(o.role, {
-            x: average(o.from.x, o.to.x, progress),
-            y: average(o.from.y, o.to.y, progress),
-            rotation: average(o.from.rotation, o.to.rotation, progress),
-          });
-        }
-      }
-    }
-    function iterate() {
-      var progress = computeProgress();
-      ctx.clearRect(-1, -1, grid + 1, grid + 1);
-      drawGrid();
-      if (progress > 1) {
-        drawAll(1);
-        callback();
-      } else {
-        setTimeout(iterate, 1000 / 60);
-        drawAll(progress);
-      }
-    }
-    setTimeout(iterate, 1000 / 60);
-  }
-
-  var content = eval('(' + document.getElementById('animationcontent').innerHTML + ')');
-  var launch = function () {
-    animate(content, launch);
-  }
-  launch();
-})();
-        </script>
       </div>
 
       <!-- Scaffolding -->

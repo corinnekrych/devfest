@@ -11,7 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Kissing Turtles</title>
+    <title>Hybrid Mobile Apps in minutes</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
     <link href="css/slides.css" rel="stylesheet" />
     <link href="css/prism.css" rel="stylesheet" />
@@ -34,150 +34,80 @@
         <h2>Introduction</h2>
       </div>
 
-      <!-- Canvas -->
-      <div id="canvas" class="step section" data-x="2953" data-y="-327" data-scale="3">
-        <h2>Canvas</h2>
+      <div id="grails1" class="step section" data-x="2953" data-y="-327" data-scale="3">
+		<img width="100%"src="images/grails.png"/>
       </div>
 
-      <div id="canvas-html" class="step slide" data-x="1963" data-y="-477" data-scale="0.6">
-        <h2>HTML Element</h2>
-        <pre><code class="language-markup">&lt;canvas
-  id="mycanvas"
-  width="1200" height="600"
-  style="width: 600px; height: 300px;"&gt;
-&lt;/canvas&gt;</code></pre>
-        <canvas id="htmlcanvas" width="600" height="300" style="position: absolute; bottom: 1em; right: 1em; width: 600px; height: 300px; box-shadow: 1px 1px 12px #555"></canvas>
-        <script>
-(function () {
-  var canvas = document.getElementById('htmlcanvas');
-  var ctx = canvas.getContext('2d');
-  var step = 10;
-
-  ctx.save();
-  ctx.translate(2 * step, 2 * step);
-  ctx.scale((canvas.width - (4 * step)) / canvas.width, (canvas.height - (4 * step)) / canvas.height);
-  ctx.beginPath();
-
-  ctx.lineWidth = 2;
-  ctx.font = 'italic 30px Calibri';
-  ctx.strokeStyle = 'red';
-  ctx.fillStyle = 'blue';
-
-  ctx.moveTo(0, 0);
-  ctx.lineTo(0, canvas.height);
-  ctx.lineTo(- step, canvas.height - step);
-  ctx.moveTo(0, canvas.height);
-  ctx.lineTo(step, canvas.height - step);
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('y', 2 * step, canvas.height - step);
-
-  ctx.moveTo(0, 0);
-  ctx.lineTo(canvas.width, 0);
-  ctx.lineTo(canvas.width - step, - step);
-  ctx.moveTo(canvas.width, 0);
-  ctx.lineTo(canvas.width - step, step);
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
-  ctx.fillText('x', canvas.width - step, 2 * step);
-
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'top';
-  ctx.fillText('(0, 0)', step, step);
-
-  ctx.save();
-  ctx.translate(canvas.width, canvas.height)
-  ctx.moveTo(0, - step);
-  ctx.lineTo(0, step);
-  ctx.moveTo(- step, 0);
-  ctx.lineTo(step, 0);
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'bottom';
-  ctx.fillText('(width, height)',  - step, - step);
-  ctx.restore();
-
-  ctx.stroke();
-  ctx.restore();
-})();
-        </script>
-      </div>
-
-      <div id="canvas-js" class="step slide" data-x="2623" data-y="-477" data-scale="0.6">
-        <h2>Interracting with javascript</h2>
-        <pre><code class="language-javascript">var canvas = document.getElementById('mycanvas');
-var ctx = canvas.getContext('2d');
-
-// Scale [0,1]
-var h = canvas.height;
-var w = canvas.width;
-var scaleX = function (x) { return x * w; };
-var scaleY = function (y) { return y * h; };
-
-// Or
-
-// Force
-var w = $(canvas).width();
-var h = $(canvas).height();
-canvas.width = w;
-canvas.height = h;</code></pre>
-      </div>
-
-      <div id="canvas-path" class="step slide" data-x="3283" data-y="-477" data-scale="0.6">
-        <h2>Basic: drawing paths</h2>
-        <div class="livedemo">
-          <pre><code class="language-javascript">ctx.beginPath();
-
-ctx.moveTo(25, 25);
-ctx.lineTo(405, 45);
-ctx.bezierCurveTo(200,290, 10, 250, 80, 100);
-
-ctx.strokeStyle = 'green';
-ctx.lineCap = 'round';
-ctx.lineWidth = 20;
-ctx.stroke();</code></pre>
-          <canvas width="500" height="300"></canvas>
+      <div id="grails2" class="step slide" data-x="1963" data-y="-477" data-scale="0.6">
+        <h2>Full-Stack Framework</h2>
+		<div style="float: left; font-size: 30px; text-align: left; display: inline-block; width: 40%">
+          <div style="text-align: left;"><br/><br/>
+		    <b>. Presentation</b><br/>
+		    <b>. Business logic</b><br/>
+		    <b>. Persistence</b><br/>
+		    <b>. Build & Test</b><br/>
+		    <b>. Documentation</b><br/>
+		  </div>
+		</div>
+        <div style="float:right;font-size:30px;text-align:right;display:inline-block;">
+          <br/><img src="images/mobile.png"  width="400" height="500"/>
         </div>
       </div>
 
-      <div id="canvas-fillingpaths" class="step slide" data-x="3943" data-y="-477" data-scale="0.6">
-        <h2>Filling paths</h2>
-        <div class="livedemo">
-          <pre><code class="language-javascript">ctx.beginPath();
+      <div id="grails3" class="step slide" data-x="2623" data-y="-477" data-scale="0.6">
+        <h2>An evolution</h2>
+        <img src="images/grails-evolution.bmp"  width="100%"/>
+		<br/>
+	    <div style="font-size: 25px;"><b>Leverages existing resources</b>
+		</div>
+		<div style="font-size: 15px;"><b>(works with "JVM friendly" hardware, software and humans)</b>
+		</div>
+		<div style="font-size: 25px;"><b>Build upon industry-proven technologies</b></div>
+		<div style="font-size: 15px;"><b>(established, well tested and scalable Java frameworks & libraries)</b></div>
+      </div>
 
-ctx.moveTo(25, 25);
-ctx.lineTo(405, 45);
-ctx.bezierCurveTo(200, 250, 10, 290, 80, 100);
-ctx.closePath();
-
-ctx.fillStyle = 'rgba(10, 10, 230, 0.3)';
-ctx.fill();
-
-ctx.lineWidth = 5;
-ctx.strokeStyle = 'red';
-ctx.stroke();</code></pre>
-          <canvas width="450" height="250"></canvas>
+      <div id="grails4" class="step slide" data-x="3283" data-y="-477" data-scale="0.6">
+        <h2>Convention over Configuration</h2>
+	    <div style="float: left; font-size: 25px; text-align: left; display: inline-block; width: 40%">
+          <div style="text-align: left;"><br/>
+		    <b>. No more painful XML settings</b><br/>
+		    <b>. 80 / 20 rule</b><br/>
+		    <b>. Don't repeat yourself (DRY)</b><br/>
+		  </div>
+		</div>
+        <div style="float:right;font-size:30px;text-align:right;display:inline-block;">
+          <img src="images/coc.png"  width="400" height="500"/>
+        </div>
+      </div>
+	  
+	  <div id="grails5" class="step slide" data-x="3943" data-y="-477" data-scale="0.6">
+        <h2>Domain Driven Design</h2>
+		<div style="float: left; font-size: 25px; text-align: left; display: inline-block; width: 50%">
+          <div style="text-align: left;"><br/><br/>
+		    <b>. Focus on the domain, rather than technology</b></br>
+		    <b>. Rapid prototyping</b><br/>
+		    <b>. Adaptable architecture</b><br/>
+		  </div>
+		</div>
+        <div style="float:right;text-align:right;display:inline-block;">
+          <br/><img src="images/cooper1.jpg"  width="70%"/>
+        </div>	  
+	  </div>
+      
+	  <div id="grails6" class="step slide" data-x="3943" data-y="3" data-scale="0.6">
+        <h2>Grails Plugin System</h2>
+		<div style="float: left; font-size: 25px; text-align: left; display: inline-block; width: 50%">
+          <div style="text-align: left;"><br/><br/>
+		    <b>. Focus on the domain, rather than technology</b></br>
+		    <b>. Rapid prototyping</b><br/>
+		    <b>. Adaptable architecture</b><br/>
+		  </div>
+		</div>
+        <div style="float:right;text-align:right;display:inline-block;">
+          <br/><img src="images/cooper1.jpg"  width="70%"/>
         </div>
       </div>
 
-      <div id="canvas-fill" class="step slide" data-x="3943" data-y="3" data-scale="0.6">
-        <h2>Shortcut - drawing shapes</h2>
-        <div class="livedemo">
-          <pre><code class="language-javascript">ctx.lineWidth = 5;
-ctx.strokeStyle = 'green';
-ctx.fillStyle = 'red';
-
-ctx.beginPath();
-ctx.rect(100, 25, 100, 200);
-ctx.fill();
-
-ctx.beginPath();
-ctx.arc(200, 400, 50, 0, 2 * Math.PI);
-ctx.fill();
-
-ctx.stroke();</code></pre>
-          <canvas width="300" height="500"></canvas>
-        </div>
-      </div>
 
       <div id="canvas-scenery" class="step slide" data-x="3943" data-y="483" data-scale="0.6">
         <h2>Draw background!</h2>

@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  <style>
+    stop.begin { stop-color:yellow; }
+    stop.end { stop-color:green; }
+    body.invalid stop.end { stop-color:red; }
+    #err { display:none; }
+    body.invalid #err { display:inline; }
+  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Kissing Turtles</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+    <link href="css/slides.css" rel="stylesheet" />
+    <link href="css/prism.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.png" />
+  </head>
+    <body class="impress-not-supported">
+
+    <div class="fallback-message">
+      <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+      <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+    </div>
+
+    <div id="impress">
+      <!-- Show an overview of the presentation -->
+      <div id="my-overview" class="step" data-x="0" data-y="0" data-scale="12">
+      </div>
+
+      <!-- Introduction section overview -->
+      <div id="introduction" class="step section" data-x="0" data-y="-3000" data-scale="3">
+        <h2>Introduction</h2>
+      </div>
+
+      <!-- Canvas -->
+      <div id="canvas" class="step section" data-x="2953" data-y="-327" data-scale="3">
+        <h2>Canvas</h2>
+      </div>
+
+      <div id="canvas-html" class="step slide" data-x="1963" data-y="-477" data-scale="0.6">
+        <h2>HTML Element</h2>
+        <pre><code class="language-markup">&lt;canvas
+  id="mycanvas"
+  width="1200" height="600"
+  style="width: 600px; height: 300px;"&gt;
+&lt;/canvas&gt;</code></pre>
+        <canvas id="htmlcanvas" width="600" height="300" style="position: absolute; bottom: 1em; right: 1em; width: 600px; height: 300px; box-shadow: 1px 1px 12px #555"></canvas>
+        <script>
+(function () {
+  var canvas = document.getElementById('htmlcanvas');
+  var ctx = canvas.getContext('2d');
+  var step = 10;
+
+  ctx.save();
+  ctx.translate(2 * step, 2 * step);
+  ctx.scale((canvas.width - (4 * step)) / canvas.width, (canvas.height - (4 * step)) / canvas.height);
+  ctx.beginPath();
+
+  ctx.lineWidth = 2;
+  ctx.font = 'italic 30px Calibri';
+  ctx.strokeStyle = 'red';
+  ctx.fillStyle = 'blue';
+
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, canvas.height);
+  ctx.lineTo(- step, canvas.height - step);
+  ctx.moveTo(0, canvas.height);
+  ctx.lineTo(step, canvas.height - step);
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('y', 2 * step, canvas.height - step);
+
+  ctx.moveTo(0, 0);
+  ctx.lineTo(canvas.width, 0);
+  ctx.lineTo(canvas.width - step, - step);
+  ctx.moveTo(canvas.width, 0);
+  ctx.lineTo(canvas.width - step, step);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  ctx.fillText('x', canvas.width - step, 2 * step);
+
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText('(0, 0)', step, step);
+
+  ctx.save();
+  ctx.translate(canvas.width, canvas.height)
+  ctx.moveTo(0, - step);
+  ctx.lineTo(0, step);
+  ctx.moveTo(- step, 0);
+  ctx.lineTo(step, 0);
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('(width, height)',  - step, - step);
+  ctx.restore();
+
+  ctx.stroke();
+  ctx.restore();
+})();
+        </script>
+      </div>
+
+      <div id="canvas-js" class="step slide" data-x="2623" data-y="-477" data-scale="0.6">
+        <h2>Interracting with javascript</h2>
+        <pre><code class="language-javascript">var canvas = document.getElementById('mycanvas');
+var ctx = canvas.getContext('2d');
+
+// Scale [0,1]
+var h = canvas.height;
+var w = canvas.width;
+var scaleX = function (x) { return x * w; };
+var scaleY = function (y) { return y * h; };
+
+// Or
+
+// Force
+var w = $(canvas).width();
+var h = $(canvas).height();
+canvas.width = w;
+canvas.height = h;</code></pre>
+      </div>
+
+      <div id="canvas-path" class="step slide" data-x="3283" data-y="-477" data-scale="0.6">
+        <h2>Basic: drawing paths</h2>
+        <div class="livedemo">
+          <pre><code class="language-javascript">ctx.beginPath();
+
+ctx.moveTo(25, 25);
+ctx.lineTo(405, 45);
+ctx.bezierCurveTo(200,290, 10, 250, 80, 100);
+
+ctx.strokeStyle = 'green';
+ctx.lineCap = 'round';
+ctx.lineWidth = 20;
+ctx.stroke();</code></pre>
+          <canvas width="500" height="300"></canvas>
+        </div>
+      </div>
+
+      <div id="canvas-fillingpaths" class="step slide" data-x="3943" data-y="-477" data-scale="0.6">
+        <h2>Filling paths</h2>
+        <div class="livedemo">
+          <pre><code class="language-javascript">ctx.beginPath();
+
+ctx.moveTo(25, 25);
+ctx.lineTo(405, 45);
+ctx.bezierCurveTo(200, 250, 10, 290, 80, 100);
+ctx.closePath();
+
+ctx.fillStyle = 'rgba(10, 10, 230, 0.3)';
+ctx.fill();
+
+ctx.lineWidth = 5;
+ctx.strokeStyle = 'red';
+ctx.stroke();</code></pre>
+          <canvas width="450" height="250"></canvas>
+        </div>
+      </div>
+
+      <div id="canvas-fill" class="step slide" data-x="3943" data-y="3" data-scale="0.6">
+        <h2>Shortcut - drawing shapes</h2>
+        <div class="livedemo">
+          <pre><code class="language-javascript">ctx.lineWidth = 5;
+ctx.strokeStyle = 'green';
+ctx.fillStyle = 'red';
+
+ctx.beginPath();
+ctx.rect(100, 25, 100, 200);
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(200, 400, 50, 0, 2 * Math.PI);
+ctx.fill();
+
+ctx.stroke();</code></pre>
+          <canvas width="300" height="500"></canvas>
+        </div>
+      </div>
+
+      <div id="canvas-scenery" class="step slide" data-x="3943" data-y="483" data-scale="0.6">
+        <h2>Draw background!</h2>
+        <p>I want to see some kind of grid</a></p>
+        <p>Edit <a href="../canvas/ktDrawBackground.js">ktDrawBackground.js</a></p>
+        <p>Test in <a href="../canvas/background.html">background.html</a></p>
+        <canvas id="backgroundcanvas1" width="300" height="300" style="position: absolute; bottom: 1em; left: 1em; box-shadow: 1px 1px 12px #555"></canvas>
+        <canvas id="backgroundcanvas2" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
+        <script>
+(function () {
+  var canvas1 = document.getElementById('backgroundcanvas1');
+  var ctx1 = canvas1.getContext('2d');
+  var canvas2 = document.getElementById('backgroundcanvas2');
+  var ctx2 = canvas2.getContext('2d');
+  var grid = 10;
+  ctx2.translate(canvas2.width / (grid * 2), canvas2.height / (grid * 2));
+  for (var i = 0; i < grid; i++) {
+    for (var j = 0; j < grid; j++) {
+      ctx1.beginPath();
+      ctx1.fillStyle = ((i + j) % 2 === 0) ? 'red' : 'blue';
+      ctx1.rect(i * canvas1.width / grid, j * canvas1.height / grid, canvas1.width / grid, canvas1.height / grid);
+      ctx1.fill();
+
+      ctx2.beginPath();
+      ctx2.strokeStyle = 'green';
+      ctx2.moveTo(i * canvas2.width / grid, 0);
+      ctx2.lineTo(i * canvas2.width / grid, (grid - 1) * canvas2.height / grid);
+      ctx2.moveTo(0, j * canvas2.height / grid);
+      ctx2.lineTo((grid - 1) * canvas2.width / grid, j * canvas2.height / grid);
+      ctx2.stroke();
+    }
+  }
+})();
+        </script>
+      </div>
+
+      <div id="canvas-origin" class="step slide" data-x="3283" data-y="483" data-scale="0.6">
+        <h2>Playing with origin</h2>
+        <div class="livedemo">
+          <pre><code class="language-javascript">ctx.save();
+
+ctx.translate(250, 150);
+ctx.rotate(Math.PI / 6);
+ctx.scale(2, 2);
+
+ctx.beginPath();
+ctx.rect(-50, -50, 100, 100);
+
+ctx.lineWidth = 5;
+ctx.strokeStyle = 'green';
+ctx.fillStyle = 'red';
+ctx.fill();
+ctx.stroke();
+
+ctx.restore();</pre></code>
+          <canvas width="400" height="300"></canvas>
+        </div>
+      </div>
+
+      <div id="canvas-bitmaps" class="step slide" data-x="2623" data-y="483" data-scale="0.6">
+        <h2>Include a bitmap</h2>
+        <div class="livedemo">
+          <pre><code class="language-javascript">var image = new Image();
+image.onload = function () {
+  ctx.save();
+  ctx.translate(150, 150);
+  ctx.rotate(Math.PI / 8);
+  ctx.scale(2, 2);
+  ctx.drawImage(image, -16, -16, 32, 32)
+  ctx.restore();
+};
+image.src = 'images/tree.png';</pre></code>
+          <canvas width="300" height="250"></canvas>
+        </div>
+      </div>
+
+      <div id="canvas-singleframe" class="step slide" data-x="1963" data-y="483" data-scale="0.6">
+        <h2>Draw single frame!</h2>
+        <p>I want to see the players and obstacles</a></p>
+        <p>Edit <a href="../canvas/ktDrawFrame.js">ktDrawFrame.js</a></p>
+        <p>Test in <a href="../canvas/frame.html">frame.html</a></p>
+        <pre style="position: absolute; bottom: 1em; left: 1em;"><code id="framecontent" class="language-javascript">{
+  franklin: {
+    role: 'turtle1', x: 5, y: 6,
+    rotation: Math.PI / 4
+  },
+  tree: {
+    role: 'tree', x: 2, y: 2,
+    rotation: 0
+  }
+}</pre></code>
+        <canvas id="framecanvas" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
+        <script>
+(function () {
+  var canvas = document.getElementById('framecanvas');
+  var ctx = canvas.getContext('2d');
+  var grid = 10;
+  ctx.scale(canvas.width / grid, canvas.height / grid);
+  ctx.translate(1/2, 1/2);
+  for (var i = 0; i < grid; i++) {
+    for (var j = 0; j < grid; j++) {
+      ctx.beginPath();
+      ctx.lineWidth = 0.01;
+      ctx.strokeStyle = 'green';
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, grid - 1);
+      ctx.moveTo(0, j);
+      ctx.lineTo(grid - 1, j);
+      ctx.stroke();
+    }
+  }
+
+  function draw(object) {
+    var img = new Image();
+    img.onload = function () {
+      ctx.save();
+      ctx.translate(object.x, grid - 1 - object.y);
+      ctx.rotate(object.rotation);
+      ctx.drawImage(img, -1/2, -1/2, 1, 1);
+      ctx.restore();
+    };
+    img.src = 'images/' + object.role + '.png';
+  }
+  var objects = eval('(' + document.getElementById('framecontent').innerHTML + ')');
+  for (var name in objects) {
+    if (objects.hasOwnProperty(name)) {
+      draw(objects[name]);
+    }
+  }
+})();
+        </script>
+      </div>
+
+      <div id="canvas-animationbackground" class="step slide" data-x="1963" data-y="3" data-scale="0.6">
+        <h2>How to animate</h2>
+        <pre><code class="language-javascript">var duration = 1000;
+
+var from = { x: 1, y: 1 };
+var to = { x: 3, y: 4 };
+
+function computeProgress() {
+  return (Date.now() - startTime) / duration;
+}
+
+function draw(progress) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGrid();
+  drawAt(
+    from.x + (to.x - from.x) * progress,
+    from.y + (to.y - from.y) * progress
+  );
+}</code></pre>
+      </div>
+
+      <div id="canvas-requestanimationframe" class="step slide" data-x="2623" data-y="3" data-scale="0.6">
+        <h2>requestAnimationFrame</h2>
+          <pre><code class="language-javascript">function iterate() {
+  var progress = computeProgress();
+  if (progress > 1) {
+    draw(1);
+  } else {
+    window.requestAnimationFrame(iterate);
+    draw(progress);
+  }
+}
+window.requestAnimationFrame(iterate);</pre></code>
+      </div>
+
+      <div id="canvas-animation" class="step slide" data-x="3283" data-y="3" data-scale="0.6">
+        <h2>Draw an animation!</h2>
+        <p>I want to see the players moving</a></p>
+        <p>Edit <a href="../canvas/ktAnimate.js">ktDrawFrame.js</a></p>
+        <p>Test in <a href="../canvas/animate.html">frame.html</a></p>
+        <pre style="position: absolute; bottom: 1em; left: 1em;"><code id="animationcontent" class="language-javascript">{
+  franklin: {
+    role: 'turtle1', 
+    from: { x: 8, y: 6,
+      rotation: Math.PI },
+    to: { x: 1, y: 6,
+      rotation: 3 * Math.PI }
+  }
+}</pre></code>
+        <canvas id="animationcanvas" width="300" height="300" style="position: absolute; bottom: 1em; right: 1em; box-shadow: 1px 1px 12px #555"></canvas>
+        <script>
+(function () {
+  var canvas = document.getElementById('animationcanvas');
+  var ctx = canvas.getContext('2d');
+  var grid = 10;
+  ctx.scale(canvas.width / grid, canvas.height / grid);
+  ctx.translate(1/2, 1/2);
+  
+  function drawGrid() {
+    for (var i = 0; i < grid; i++) {
+      for (var j = 0; j < grid; j++) {
+        ctx.beginPath();
+        ctx.lineWidth = 0.01;
+        ctx.strokeStyle = 'green';
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, grid - 1);
+        ctx.moveTo(0, j);
+        ctx.lineTo(grid - 1, j);
+        ctx.stroke();
+      }
+    }
+  }
+
+  var images = {};
+  function draw(role, place) {
+    if (!images[role]) {
+      images[role] = new Image();
+      images[role].src = 'images/' + role + '.png';
+    }
+    ctx.save();
+    ctx.translate(place.x, grid - 1 - place.y);
+    ctx.rotate(place.rotation);
+    ctx.drawImage(images[role], -1/2, -1/2, 1, 1);
+    ctx.restore();
+  }
+
+  var duration = 3000;
+  function animate(content, callback) {
+    var startTime = Date.now();
+    function computeProgress() {
+      return (Date.now() - startTime) / duration;
+    }
+    function average(from, to, progress) {
+      return from + (to - from) * progress;
+    }
+    function drawAll(progress) {
+      var o;
+      for (var name in content) {
+        if (content.hasOwnProperty(name)) {
+          o = content[name];
+          draw(o.role, {
+            x: average(o.from.x, o.to.x, progress),
+            y: average(o.from.y, o.to.y, progress),
+            rotation: average(o.from.rotation, o.to.rotation, progress),
+          });
+        }
+      }
+    }
+    function iterate() {
+      var progress = computeProgress();
+      ctx.clearRect(-1, -1, grid + 1, grid + 1);
+      drawGrid();
+      if (progress > 1) {
+        drawAll(1);
+        callback();
+      } else {
+        setTimeout(iterate, 1000 / 60);
+        drawAll(progress);
+      }
+    }
+    setTimeout(iterate, 1000 / 60);
+  }
+
+  var content = eval('(' + document.getElementById('animationcontent').innerHTML + ')');
+  var launch = function () {
+    animate(content, launch);
+  }
+  launch();
+})();
+        </script>
+      </div>
+
+      <!-- Scaffolding -->
+      <div id="scaffolding" class="step section" data-x="1763" data-y="2427" data-scale="3">
+        <h2>Scaffolding</h2>
+      </div>
+
+      <div id="scaffolding-1" class="step slide" data-x="773" data-y="2277" data-scale="0.6">
+        <h2>Set-up</h2>
+        <div style="font-size: 20px">
+        <b>Software required</b><br/>
+        grails2.1+<br/>
+        html5-mobile-scaffold<br/>
+        <b>KissingTurtlesGreach Step by Step</b><br/>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git clone https://github.com/corinnekrych/KissingTurtlesGreach.git</code></pre>
+        <span style="font-size: 20px;"><img width="30" src="images/Warning-icon.png" alt="warning" /><b> you won't loose your hard work</b></span><br/>
+        we work with git branches<br/>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step1_todo</code></pre>
+        do your changes and commit them
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git commit -a -m "my hard work"</code></pre>
+        get the end result for step 1
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step1</code></pre>
+        <b>KissingTurtles tutorial</b><br/>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git clone https://github.com/mathbruyen/kissingturtles-handson.git</code></pre>
+        </div>
+      </div>
+
+    
+      <div id="scaffolding-2" class="step slide" data-x="1433" data-y="2277" data-scale="0.6">
+        <h2>Kissing Turtles</h2>
+        <div style="float: left; font-size: 20px; text-align: left; display: inline-block; width: 30%"><br/>
+        <p>Intiative started in november for Grails48</p><img width="70" src="images/g48_logo10.png" alt="grails48"/>
+        <p>Game for kids to learn programming</p>
+        <p>Simple Groovy DSL to make the turtle move</p>        
+        </div>
+        <div style="float:right;font-size:30px;text-align:right;display:inline-block;">
+            <!--iframe src="http://kissingturtles.cloudfoundry.com" width="500" height="600" name="myFrame" id="myFrame"></iframe-->
+            <img width="380" src="images/kissingturtles.png"/>
+        </div>
+    </div>
+
+      <div id="scaffolding-3" class="step slide" data-x="2093" data-y="2277" data-scale="0.6">
+        <h2>New project</h2><br/>
+        <div style="font-size: 20px">
+        <b>Create a new Grails app</b>
+        <pre><code style="font-size: 14px" class="language-markup"> &gt; grails create-app KissingTurtlesGreach</code></pre>
+        <b>Integrate with you favourite editor ;-) </b>
+        <pre><code style="font-size: 14px" class="language-markup"> &gt; grails integrate-with --intellij</code></pre>
+        <b>Only one domain class needed</b>
+        <pre><code style="font-size: 14px" class="language-markup"> &gt; grails create-domain-class kissingturtles.Game</code></pre>
+        add attribute to your domain class:<br/>
+        String name<br/>
+      </div>
+      </div>
+
+      <div id="scaffolding-4" class="step slide" data-x="2753" data-y="2277" data-scale="0.6">
+        <h2>Step1: Scaffold with ...</h2>
+        <div style="display:inline-block;float:left;width:60%">
+        <a href="http://3musket33rs.github.com/">3musket33rs plugin</a>
+        <div style="font-size: 20px">
+        <b>1: Plugin dependencies</b> in BuildConfig.groovy
+<pre><code style="font-size: 14px" class="language-markup">grails.plugin.location."html5-mobile-scaffolding" = 
+"../html5-mobile-scaffolding"</code></pre>
+<b>2: New scaffold script</b><br/>
+<pre><code style="font-size: 14px" class="language-markup">&gt; grails html-generate-all kissingturtles.Game
+&gt; grails run-app</code></pre>
+<b>You're lost?</b>
+<pre><code style="font-size: 14px" class="language-markup"> &gt; git checkout step1</code></pre>
+        </div>
+        </div>
+        <img style="width:40%" src="images/figures/figure0.png" alt="doc" />
+      </div>
+
+      <div id="scaffolding-5" class="step slide" data-x="2753" data-y="2751" data-scale="0.6">
+        <h2>What was generated?</h2>
+        <div style="font-size: 20px">
+          => controllers<br/>
+          => views generated in web-app folder: no GSP!<br/>
+          2 parts js framework, grails.mobile package<br/>
+          and your domain driven package: <b>kissingturtles.views.game-view.js</b><br/>
+        </div>
+        <img style="float:right;width:100%" src="images/figures/figure1.png" />
+      </div>
+
+      <div id="scaffolding-6" class="step slide" data-x="2753" data-y="3231" data-scale="0.6">
+        <h2>Offline mode</h2>
+        <div style="font-size: 20px">
+<b>CRUD easy</b><br/>
+Try CRUD oprations, add new game.<br/>
+<b>Am I loosing my data offline?</b><br/> 
+in js console type
+<pre><code style="font-size: 14px" class="language-javascript"> &gt; localStorage</code></pre>
+<b>Test it</b><br/>
+1. turn off wifi or work offline menu in FF<br/>
+2. add a new game<br/>
+3. back offline<br/>
+<b>Clear data</b><br/>
+<pre><code style="font-size: 14px" class="language-javascript"> &gt; localStorage.clear()</code></pre>
+        </div>
+      </div>
+
+      <div id="scaffolding-6-1" class="step slide" data-x="2800" data-y="3300" data-scale="0.05">
+        <h2>Offline mode</h2>
+        <img style="float:right;width:100%" src="images/figures/figure2.png" />
+      </div>
+
+      <div id="scaffolding-6-2" class="step slide" data-x="2950" data-y="3300" data-scale="0.05">
+        <h2>Back online</h2>
+        <img style="float:right;width:100%" src="images/figures/figure3.png" />
+      </div>
+
+      <div id="scaffolding-7" class="step slide" data-x="2093" data-y="3231" data-scale="0.6">
+        <h2>Step2: Take just what we need...</h2>
+        <div style="font-size: 20px;">
+          1. in UrlMappings.groovy remove: "/"(view:"/index")<br/>
+          2. in BuildConfig.groovy remove:
+          <pre><code style="font-size: 14px" class="language-javascript">compile ':cache:1.0.0'
+          runtime ":resources:1.1.6"</code></pre>
+          3. remove offline caching in game-bootstrap.js
+          <pre><code style="font-size: 14px" class="language-javascript"> options: { 
+            offline: false,
+            eventPush: true 
+          }</code></pre>
+          4. Change view behaviour<br/>
+          delete index.html<br/>
+          rename game-index.html into index.html<br/>
+          <b>You loose your path?</b><br/>
+          <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step2</code></pre>
+        </div>
+      </div>
+
+      <div id="scaffolding-8" class="step slide" data-x="1433" data-y="3231" data-scale="0.6">
+        <h2>Step3: Redesign main page</h2>
+        with HTML5<br/>
+        <div style="float: left; font-size: 20px; text-align: left; display: inline-block; width: 40%">
+          <b>Play button</b><br/>
+          In indext.html add new section "start-game" with a button id=play
+          <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step3</code></pre>
+          to get images !<br/>
+      </div>
+          <div style="float:right;font-size:30px;text-align:right;display:inline-block;">
+            <img src="images/mainpage.png"  width="400" height="500"/>
+        </div>
+      </div>
+      
+      <div id="scaffolding-8-1" class="step slide" data-x="1500" data-y="3300" data-scale="0.06">
+      <div style="float: left; font-size: 20px;"> 
+      <b>HTML section for start-game</b>
+      <pre><code style="font-size: 14px" class="language-javascript">
+&lt;section data-role=&quot;page&quot; id=&quot;start-game&quot;&gt;
+    &lt;div data-role=&quot;header&quot; data-position=&quot;fixed&quot;&gt;
+      &lt;h1&gt;Kissing Turtles&lt;/h1&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;center-wrapper&quot; data-role=&quot;content&quot; id=&quot;start-presentation&quot;&gt;
+      &lt;div&gt;
+        &lt;img width=&quot;20%&quot; src=&quot;images/game/turtle.png&quot;/&gt;
+        &lt;img width=&quot;20%&quot; src=&quot;images/game/pig.png&quot;/&gt;
+      &lt;/div&gt;
+
+      &lt;div data-theme=&quot;a&quot; class=&quot;center-wrapper&quot; data-content-theme=&quot;a&quot;&gt;
+        &lt;textarea readonly&gt;Franklin and Emily have a rendez-vous. 
+        Help them to meet at the love tree.&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;ul data-role=&quot;listview&quot; data-inset=&quot;true&quot;&gt;
+          &lt;li&gt;&lt;a id=&quot;play&quot; data-role=&quot;button&quot; data-inline=&quot;true&quot;&gt;Play&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div data-role=&quot;footer&quot; data-position=&quot;fixed&quot;&gt;
+      &lt;h4&gt;Greach 2013&lt;/h4&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+      </code></pre>  
+    </div>
+
+      </div>
+
+      <div id="scaffolding-9" class="step slide" data-x="773" data-y="3231" data-scale="0.6">
+        <h2>Step4: Add dynamic behaviour</h2>
+           with jQuery<br/>
+        <div style="float: left; font-size: 20px; text-align: left; display: inline-block; width: 50%">
+          <b>1. User name section</b><br/>
+          Same than earlier... pure HTML5<br/>
+          <b>Play button</b><br/>
+          2. In <b>kissingturtles.views.game-view.js</b><br/>
+          add click on play -> go to section-show-user<br/>
+          store on local storage user name<br/>
+          3. click on save user-> go to list<br/>
+          <pre><code style="font-size: 14px" class="language-javascript">
+$('#play').live('click tap', function (event) {
+  //TO DO
+});
+$("#submit-user").live("click tap", function(event) {
+  // TO DO save in localStorage
+});
+          </code></pre>
+      </div>
+      <div style="float:right;font-size:30px;text-align:right;display:inline-block;">
+            <img src="images/user_screen.png"  width="350"/>
+        </div>
+      </div>
+
+      <div id="scaffolding-9-1" class="step slide" data-x="800" data-y="3300" data-scale="0.06">
+      <div style="float: left; font-size: 20px;"> 
+      <pre><code style="font-size: 14px" class="language-javascript">
+&lt;section data-role=&quot;page&quot; id=&quot;section-show-user&quot;&gt;
+  &lt;div data-role=&quot;header&quot; id=&quot;show-user&quot; data-position=&quot;fixed&quot;&gt;
+    &lt;a href=&quot;#start-game&quot; data-transition=&quot;slide&quot; data-icon=&quot;arrow-l&quot;&gt;Cancel&lt;/a&gt;
+      &lt;h1&gt;Who are you?&lt;/h1&gt;
+  &lt;/div&gt;
+  &lt;ul data-role=&quot;listview&quot; data-inset=&quot;true&quot;&gt;
+    &lt;li data-role=&quot;fieldcontain&quot;&gt;
+      &lt;label for=&quot;input-user-name&quot;&gt;What's your name ?&lt;/label&gt;
+      &lt;input type=&quot;text&quot; class=&quot;validate[required]&quot; 
+          name=&quot;name&quot; id=&quot;input-user-name&quot; value=&quot;&quot;/&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div data-role=&quot;footer&quot; data-position=&quot;fixed&quot;&gt;
+    &lt;div data-role=&quot;navbar&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;&quot; data-role=&quot;button&quot; data-transition=&quot;slide&quot; data-icon=&quot;save&quot;
+            id=&quot;submit-user&quot;&gt;Save&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+      </code></pre> 
+      </div> 
+    </div>
+
+     <div id="scaffolding-9-2" class="step slide" data-x="900" data-y="3300" data-scale="0.06">
+      <div style="float: left; font-size: 20px;"> 
+      <b>Click on play</b>
+      <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Click on Play brings you here
+    //----------------------------------------------------------------------------------------
+    $('#play').live('click tap', function (event) {
+        var id = localStorage.getItem("KissingTurtles.UserId");
+        if (id) {
+            $.mobile.changePage($("#section-list-game"));
+            that.listButtonClicked.notify();
+        } else {
+            $.mobile.changePage($("#section-show-user"));
+        }
+    });
+</code></pre>
+<b>Click on save user</b>
+<pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Click on Save on user page. Your name is asked only once.
+    //----------------------------------------------------------------------------------------
+    $("#submit-user").live("click tap", function(event) {
+        var name = $('#input-user-name').val();
+        localStorage.setItem("KissingTurtles.UserId", name);
+        $.mobile.changePage($("#section-list-game"));
+    });
+</code></pre>
+</div>
+      </div>      
+
+      <div id="scaffolding-10" class="step slide" data-x="773" data-y="2751" data-scale="0.6">
+          <h2>Step4: Add canvas</h2>
+          <div style="float: left; font-size: 20px;"> 
+          <b>Create canvas</b><br/>
+          3. in "section-show-game" section remove form element<br/>
+          4. add canvas<br/>
+          5. include ktDraw.js<br>
+          6. window.onload to write in canvas<br>
+          <b>Did you mess up?</b>
+          <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step4</code></pre>
+        </div>
+      </div>
+
+      <div id="scaffolding-11" class="step slide" data-x="1433" data-y="2751" data-scale="0.6">
+        <h2>Step5: Adding server side call</h2>
+        <div style="float: left; font-size: 20px;"> 
+        <b>Adding behabiour for create button</b><br/>
+        . get name from localStorage<br/>
+        . notify controller of create
+        <pre><code style="font-size: 14px" class="language-javascript">$("#add-game").live('click tap', function (event) {
+  //TO DO
+});</code></pre>
+        <b>Server side GameController</b><br/>
+        . generate walls<br/>
+        . generate turtles random positions<br/>
+
+        <b>Callback on created</b><br/>
+        . initialize ktDraw<br/>
+        . move to show-game section
+        <pre><code style="font-size: 14px" class="language-javascript">that.model.createdItem.attach(function (data, event) {
+  //TO DO
+});</code></pre>  
+
+        <b>Did you mess up?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step5</code></pre>
+      </div>
+      </div>
+
+     <div id="scaffolding-11-1" class="step slide" data-x="1500" data-y="2751" data-scale="0.06">
+      <div style="float: left; font-size: 20px;"> 
+      <b>Click on create</b>
+        <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Click on 'Create your own game' brings you here
+    //----------------------------------------------------------------------------------------
+    $("#add-game").live('click tap', function (event) {
+        event.stopPropagation();
+        var obj = {user1: localStorage.getItem("KissingTurtles.UserId")};
+        var newElement = {
+            game: JSON.stringify(obj)
+        };
+        that.createButtonClicked.notify(newElement, event);
+    });
+        </code></pre>
+</div>
+</div>
+
+     <div id="scaffolding-11-2" class="step slide" data-x="1600" data-y="2751" data-scale="0.06">
+      <div style="float: left; font-size: 20px;"> 
+<b>Callback on created</b>
+<pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Callback after first player create a new game. First player will play as Franklin.
+    //----------------------------------------------------------------------------------------
+    that.model.createdItem.attach(function (data, event) {
+        if (data.item.errors) {
+            $.each(data.item.errors, function (index, error) {
+                $('#input-game-' + error.field).validationEngine('showPrompt', error.message, 'fail');
+            });
+            event.stopPropagation();
+        } else if (data.item.message) {
+            showGeneralMessage(data, event);
+        } else {
+            var confAsString = data.item.mazeDefinition;
+            var conf = JSON.parse(confAsString);
+
+            that.currentMaze = conf;
+            that.draw = ktDraw(document.getElementById('canvas'), conf, that.currentMaze.steps[0]);
+            that.player = "franklin";
+            that.gameId = data.item.id;
+
+            renderElement(data.item);
+            showElement(data.item);
+
+            $("#list-game").listview('refresh');
+            $.mobile.changePage($("#section-show-game"));
+        }
+    });
+</code></pre>
+</div>
+      </div>   
+    <div id="scaffolding-12" class="step slide" data-x="2093" data-y="2751" data-scale="0.6">
+        <h2>Step6: I'd like to move it</h2>
+        <div style="float: left; font-size: 20px;"> 
+        <b>Adding behabiour for execute button</b><br/>
+        
+
+        <b>Server side GameController</b><br/>
+        . move up by 3<br/>
+        . is actual Grovvy code
+        <pre><code style="font-size: 14px" class="language-javascript">
+        def run() {
+        ...
+          def binding = new Binding([
+                  turtle: turtle,
+                  left: dsl.Direction.left,
+                  right: dsl.Direction.right,
+                  down: dsl.Direction.down,
+                  up: dsl.Direction.up,
+                  move: turtle.&amp;move,
+                  by: turtle.&amp;by
+          ])
+          def shell = new GroovyShell(binding)
+          shell.evaluate(script)
+          def result = binding.getVariable('turtle').result
+        ... 
+        </code></pre>
+        <b>Did you mess up?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step6</code></pre>
+      </div>      
+    </div>
+
+    <div id="scaffolding-12-1" class="step slide" data-x="2300" data-y="2751" data-scale="0.1">
+      <div style="float: left; font-size: 20px;"> 
+      <b>Click on execute</b>
+        <pre ><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Click on Execute my DSL script brings you here
+    //----------------------------------------------------------------------------------------
+    $("#submit-game").live("click tap", function(event) {
+        var dslInput = $('#input-move-name').val();
+        var gameId = that.gameId;
+        that.executeButtonClicked.notify({title: "KissingTurtles", 
+          content: dslInput, 
+          gameId: gameId, 
+          user: localStorage.getItem("KissingTurtles.UserId")});
+    });</code></pre>
+<b>Callback on executed</b>
+    <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //    Callback to display the maze after execute method
+    //----------------------------------------------------------------------------------------
+    that.model.executed.attach(function (data, event) {
+        var myGameObject = data.item;
+        $.each(myGameObject.configuration.steps, function (key, value) {
+            that.draw(value, function () {
+                var win = myGameObject.configuration.winningAnimation;
+                if (win) {
+                    that.draw.win(win.x, win.y);
+                }
+            });
+        });
+    });</code></pre>  
+ </div>
+</div>
+    <div id="scaffolding-12bis" class="step slide" data-x="2093" data-y="2751" data-scale="0.6">
+        <h2>Step6: I'd like to move it</h2>
+        <div style="float: left; font-size: 20px;"> 
+        <b>Adding behabiour for execute button</b><br/>
+        
+
+        <b>Server side GameController</b><br/>
+        . move up by 3<br/>
+        . is actual Grovvy code
+        <pre><code style="font-size: 14px" class="language-javascript">
+        def run() {
+        ...
+          def binding = new Binding([
+                  turtle: turtle,
+                  left: dsl.Direction.left,
+                  right: dsl.Direction.right,
+                  down: dsl.Direction.down,
+                  up: dsl.Direction.up,
+                  move: turtle.&amp;move,
+                  by: turtle.&amp;by
+          ])
+          def shell = new GroovyShell(binding)
+          shell.evaluate(script)
+          def result = binding.getVariable('turtle').result
+        ... 
+        </code></pre>
+        <b>Did you mess up?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step6</code></pre>
+      </div>      
+    </div>
+ 
+      <!-- Multiplayer -->
+      <div id="multiplayer" class="step section" data-x="-1763" data-y="2427" data-scale="3">
+        <h2>Multiplayer</h2>
+      </div>
+      <div id="multiplayer-1" class="step slide" data-x="-2753" data-y="2277" data-scale="0.6">
+        <h2>Multi-Users, Real Time</h2>
+        <div style="float: left; font-size: 20px; text-align: left; width: 850px;">
+        <p>Let's add some more fun and make it a real-time multi-users applications.</p>
+        <p style="font-size: 20px;color:pink;">First player (Franklin) is creating the game. The other player (Emily), joins the game...</p>
+
+        <div style="display:inline-block;float:left;width: 400px;" >
+            <!--iframe src="http://kissingturtles.cloudfoundry.com/" width="400" height="500" name="myFrame" id="myFrame-2"></iframe-->
+            <img width="380" src="images/kissing1.png"/>
+        </div>
+        <div style="display:inline-block;float:left;width:25px"><br></div>
+
+        <div style="display:inline-block;float:right;width: 400px;" >
+            <!--iframe src="http://kissingturtles.cloudfoundry.com/" width="400" height="500" name="myFrame" id="myFrame-3"></iframe-->
+            <img width="380" src="images/kissing2.png"/>
+        </div>
+        </div>
+      </div>
+
+    
+      <div id="multiplayer-2" class="step slide" data-x="-2093" data-y="2277" data-scale="0.6">
+        <h2>Step7: Event Push</h2>
+        <div style="float: left; font-size: 20px; text-align: left;"><br/>
+        Event-push with Atmosphere integrated in <b>3musket33rs</b> plugins<br/>
+        using Grails <b>event-push</b> plugin and <b>platform core</b> plugin<br/><br/>
+        </div>
+           <div >
+            <img width="700" src="images/create.png"/>
+        </div> 
+    </div>
+
+      <div id="multiplayer-3" class="step slide" data-x="-1433" data-y="2277" data-scale="0.6">
+        <h2>Step7: Franklin creates the game</h2>
+        <div style="font-size: 20px">
+        <b>Push is activated by default</b>
+        <pre><code style="font-size: 14px" class="language-javascript">options: {
+            offline: false,
+            eventPush: true
+        }</code></pre>
+        <b>Server side</b> declares the events in grails-app/conf/GameEvents.groovy
+        <pre><code style="font-size: 14px" class="language-javascript">events = {
+      'save-game' browser:true
+      'update-game' browser:true
+      'delete-game' browser:true
+    }</code></pre>
+        <b>In GameController, raise the event</b>
+        <pre><code style="font-size: 14px" class="language-javascript">event topic:"save-game", data: gameInstance</code></pre>
+        <b>Client side processing</b> in web-app/js/grails/mobile/push/pushmanager.js,<br/>
+        <pre><code style="font-size: 14px" class="language-javascript">grailsEvents.on('save-' + domainName , function (data) {
+            if (!model.getItems()[data.id]) {
+                data.NOTIFIED = true;
+                if (options.offline) {
+                    store.store(data);
+                }
+                model.createItem(data);
+            }
+        });</code></pre>
+        </div>
+      </div>
+
+      <div id="multiplayer-4" class="step slide" data-x="-773" data-y="2277" data-scale="0.6">
+        <h2>Step7: Franklin already knows...</h2>
+        <div style="font-size: 20px">
+        he doesn't want to be notified!<br/>
+        <b>in web-app/js/grails/mobile/push/pushmanager.js</b><br/>
+        <b>Back on created callback</b>
+        <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Callback after first player create a new game. First player will play as Franklin.
+    //----------------------------------------------------------------------------------------
+    that.model.createdItem.attach(function (data, event) {
+        if (data.item.errors) {
+     ....
+        } else {
+        // TODO add check if we're notified data.item.NOTIFIED
+        }
+    });          
+        </code></pre>
+        </div>
+      </div>
+
+    <div id="multiplayer-5" class="step slide" data-x="-773" data-y="2751" data-scale="0.6">
+      <h2>Step7: Franklin already knows...</h2>
+      <div style="font-size: 20px">
+        <b>Back on created callback</b>
+        <pre data-line="12, 21" style="font-size: 14px" ><code class="language-javascript">that.model.createdItem.attach(function (data, event) {
+        if (data.item.errors) {
+            $.each(data.item.errors, function (index, error) {
+                $('#input-game-' + error.field).validationEngine('showPrompt', error.message, 'fail');
+            });
+            event.stopPropagation();
+        } else if (data.item.message) {
+            showGeneralMessage(data, event);
+        } else {
+            var confAsString = data.item.mazeDefinition;
+            var conf = JSON.parse(confAsString);
+            if (!data.item.NOTIFIED) {
+                that.currentMaze = conf;
+                that.draw = ktDraw(document.getElementById('canvas'), conf, that.currentMaze.steps[0]);
+                that.player = "franklin";
+                that.gameId = data.item.id;
+            }
+            renderElement(data.item);
+            showElement(data.item);
+            $("#list-game").listview('refresh');
+            if (!data.item.NOTIFIED) {
+                $.mobile.changePage($("#section-show-game"));
+            }
+        }
+    });</code></pre>
+        <b>Get latest from github?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step7</code></pre>
+        </div>
+    </div>
+
+      <div id="multiplayer-6" class="step slide" data-x="-773" data-y="3231" data-scale="0.6">
+        <h2>Step8: Emily joins</h2>
+<br/>
+        <div style="font-size: 20px">
+         <img width="650px"src="images/update.png"/>
+      </div>
+      </div>
+
+      <div id="multiplayer-7" class="step slide" data-x="-1433" data-y="3231" data-scale="0.6">
+        <h2>Step8: Emily joins</h2>
+
+        <div style="font-size: 20px">
+         Same idea with <b>update</b> event<br/>
+         <b>1. write onclick</b> for element in the list<br/>
+         get userId from localStorage and notify update<br/>
+         <pre><code style="font-size: 14px" class="language-javascript">
+    that.elements.show.live('click tap', function (event) {
+      //TO DO
+    });</code></pre>
+         <b>2. Server side</b><br/>
+        declare the update-game event in grails-app/conf/GameEvents.groovy<br/>
+        <b>3. In GameController, raise the update-game event</b><br/>
+        <b>4. client side catching</b><br/>
+        in web-app/js/grails/mobile/push/pushmanager.js,<br/>
+        <b>5. Callback on updated</b><br/>
+        to exclude myself from notification
+      </div>
+      </div>
+
+      <div id="multiplayer-8" class="step slide" data-x="-2093" data-y="3231" data-scale="0.6">
+        <h2>Step8: Emily joins</h2>
+      <div style="font-size: 20px">
+        <b>On click element of the list</b>
+         <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //   Click on an element of the list to join the game. Second player is Emily.
+    //----------------------------------------------------------------------------------------
+    that.elements.show.live('click tap', function (event) {
+        event.stopPropagation();
+        var gameId = $(event.currentTarget).attr('data-id');
+        if(gameId) {
+            var obj = {user2: localStorage.getItem("KissingTurtles.UserId"), gameId: gameId};
+            var newElement = {
+                game: JSON.stringify(obj)
+            };
+            that.updateButtonClicked.notify(newElement, event);
+        }
+    });</code></pre>
+        </div>
+      </div>
+
+      <div id="multiplayer-9" class="step slide" data-x="-2753" data-y="3231" data-scale="0.6">
+        <h2>Step8: Emily joins</h2>
+      <div style="font-size: 20px">
+        <b>Callback after joining the game</b>
+        <pre data-line="15, 21" style="font-size: 14px"><code class="language-javascript">that.model.updatedItem.attach(function (data, event) {
+        if (data.item.errors) {
+            $.each(data.item.errors, function(index, error) {
+                $('#input-game-' + error.field).validationEngine('showPrompt',error.message, 'fail');
+            });
+            event.stopPropagation();
+        } else if (data.item.message) {
+            showGeneralMessage(data, event);
+        } else {
+            // In case of Emily or Franklin we go here
+            var confAsString = data.item.mazeDefinition;
+            var conf = JSON.parse(confAsString);
+            that.currentMaze = conf;
+            updateElement(data.item);
+            if (!data.item.NOTIFIED) {
+                // For Emily game, initialize canvas
+                that.draw = ktDraw(document.getElementById('canvas'), conf, that.currentMaze.steps[0]);
+                that.player = "emily";
+                that.gameId = data.item.id;
+                $.mobile.changePage($("#section-show-game"));
+            } else if (that.player == "franklin" &amp;&amp; that.gameId == data.item.id) {
+                // For Franklin game
+                that.draw({emily: that.currentMaze.steps[0].emily});
+            } else {
+                $("#list-game").listview('refresh');
+            }
+        }
+    });</code></pre>
+ </div>
+      </div>
+
+      <div id="multiplayer-9.1" class="step slide" data-x="-2600" data-y="3231" data-scale="0.1">
+        <h2>Step8: Emily has joined!</h2>
+        <div style="font-size: 20px">
+        <b>Get latest from github?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step8</code></pre>
+        </div>
+      </div>
+    
+    <div id="multiplayer-10" class="step slide" data-x="-2753" data-y="2751" data-scale="0.6">
+        <h2>Step9: My friend moves</h2>
+        <div style="font-size: 20px">
+        <b>1. Define new event</b> in grails-app/conf/GameEvents.groovy
+        <pre><code style="font-size: 14px" class="language-javascript">events = {
+              'save-game' browser:true
+              'update-game' browser:true
+              'delete-game' browser:true
+              "execute-game" browser: true
+            }</code></pre>
+        <b>2. GameController.execute</b>, raise event execute-game<br/>
+        <b>3. Client side</b> catch event execute-game <br/>
+        in manager-bootstap.js
+        <pre><code style="font-size: 14px" class="language-javascript">
+    managerObject.domainsObjects['game'].push.grailsEvents.on('execute-game', function (data) {
+        var dataParsed = JSON.parse(data);
+        dataParsed.NOTIFIED = true;
+        managerObject.domainsObjects['game'].model.execute(dataParsed);
+    });</code></pre>
+      </div>
+      </div>     
+
+      <div id="multiplayer-11" class="step slide" data-x="-2093" data-y="2751" data-scale="0.6">
+         <h2>Step9: My friend moves</h2>
+        <div style="font-size: 20px">
+        <b>4. On executed</b> refresh canvas<br/>
+        <pre><code style="font-size: 14px" class="language-javascript">
+    //----------------------------------------------------------------------------------------
+    //    Callback to display the maze after execute method
+    //----------------------------------------------------------------------------------------
+    that.model.executed.attach(function (data, event) {
+        // only for my game
+        if (that.gameId == data.item.configuration.id) {
+            // refresh me if it's not myself pls
+            if (!data.item.NOTIFIED || that.player != data.item.configuration.player) {
+                var myGameObject = data.item;
+                $.each(myGameObject.configuration.steps, function(key, value) {
+                    that.draw(value, function () {
+                        var win = myGameObject.configuration.winningAnimation;
+                        if (win) {
+                            that.draw.win(win.x, win.y);
+                        }
+                    });
+                });
+            }
+        }
+    });
+        </code></pre>
+        <b>Get latest from github?</b>
+        <pre><code style="font-size: 14px" class="language-javascript"> &gt; git checkout step9</code></pre>
+      </div>
+      </div>
+
+      <!-- Conclusion -->
+      <div id="conclusion" class="step section" data-x="-2953" data-y="-327" data-scale="3">
+        <h2>Conclusion</h2>
+        <div style="font-size: 20px">
+        <b>Same your project in github (optional)</b><br/>
+git init<br/>
+git add -A<br/>
+git commit -m "my changes"<br/>
+git remote add origin https://github.com/yourGithubUsername/KissingTurtlesGreach.git<br/>
+git push -u origin master<br/>
+       </div>
+      </div>
+    </div>
+
+    <div class="hint">
+      <p>Use a spacebar or arrow keys to navigate</p>
+    </div>
+    <script>
+(function () {
+  function enhance (element) {
+    var txt = element.querySelector('code');
+    var canvas = element.querySelector('canvas');
+    var ctx = canvas.getContext('2d');
+    eval(txt.innerHTML);
+  }
+  var demos = document.querySelectorAll('.livedemo');
+  for (var i = 0; i < demos.length; i++) {
+    enhance(demos.item(i));
+  }
+})();
+    </script>
+    <script src="js/prism.js"></script>
+    <script>
+      if ("ontouchstart" in document.documentElement) { 
+        document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+      }
+    </script>
+    <script src="js/prism.js"></script>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>

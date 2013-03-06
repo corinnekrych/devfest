@@ -781,6 +781,8 @@
             }
         }, false);
         
+    
+
         // rescale presentation when window is resized
         window.addEventListener("resize", throttle(function () {
             // force going to active step again, to trigger rescaling

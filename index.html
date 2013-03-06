@@ -16,6 +16,9 @@
     <link href="css/slides.css" rel="stylesheet" />
     <link href="css/prism.css" rel="stylesheet" />
     <link rel="shortcut icon" href="favicon.png" />
+
+    <script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jcloud.js"></script>
   </head>
     <body class="impress-not-supported">
 
@@ -217,23 +220,49 @@
       </div>
 
       <div id="grails8" class="step slide" data-x="-1433" data-y="3231" data-scale="0.6">
+        <h2>Grails Mobile Plugin</h2>
+        <div style="float: left; font-size: 25px; text-align: right; display: inline-block; width: 50%"><br/>
+            <p><b>jQuery Mobile scaffolding</b></p> 
+            <span style="font-size: 20px;">by R. Fletcher & S. Blanc</span></br>
+            <b>Geolocation</b><br/>
+            <span style="font-size: 20px;">by S. Blanc</span></br>
+            <b>Spring mobile</b><br/>
+            <span style="font-size: 20px;">by S. Blanc</span></br>
+            <b>HTML5 mobile scaffolding</b><br/>
+            <span style="font-size: 20px;">by 3musket33rs</span></br>
+            <b>PhoneGap build</b><br/>
+            <span style="font-size: 20px;">by 3musket33rs</span></br>
+            <br/>
+            <a href="3musket33rs.github.com">3musket33rs.github.com</a>
+        </div>
+        <div style="width:50%;float:right;font-size:30px;text-align:right;display:inline-block;">
+            <br/><iframe src="3musket33rs.html" width="400" height="500" name="myFrame" id="myFrame"></iframe>
+        </div>
 
+         
       </div>
 
       <div id="grails9" class="step slide" data-x="-2093" data-y="3231" data-scale="0.6">
-        <h2>Groovy</h2>
-        <div style="float: left; font-size: 25px; text-align: left; display: inline-block; width: 50%">
-          <div style="text-align: left;"><br/><br/>
-            <b>. Less and more expressive code</b></br>
-            <b>. Mix Java & Groovy</b><br/>
-            <b>. Compiles to Java bytecode, run on JVM</b><br/>
-            <b>. Dynamic language for changing requirements</b><br/>
-          </div>
+       <h2>Groovy</h2>
+        <div style="float: left; font-size: 30px; text-align: left; display: inline-block; width: 50%"><br/>
+            <p><b>Dynamic language</b></p> 
+            <span style="font-size: 18px;">running on the <b>JVM</b></span></br>
+            <b>Modern features</b><br/>
+            <span style="font-size: 20px;">closure, collection...</span></br>
+            <p><b>Statically type check</b></p> 
+            <span style="font-size: 20px;">and statically compiled ideal for Java scripting</span></br>
+            <b>Almost-zero learning curve</b><br/>
+            <b>Domain-Specific Language</b><br/>
+            <span style="font-size: 20px;">Perfect companion for embedded DSL</span></br>
+            <span style="font-size: 20px;"><b>Spock</b> awsome testing framework</span></br>
+            <span style="font-size: 20px;"><b>Gradle</b> official <b>Android build system</b></span></br>
+            <b>Simplify mocking testing</b><br/>
+            <br/>
         </div>
-        <div style="float:right;text-align:right;display:inline-block;">
-          <br/><img src="images/groovy.jpg"  width="70%"/>
-        </div>
-      </div>
+         <div style="float:right;text-align:right;display:inline-block;width: 50%">
+          <br/><br/><img src="images/groovy.png"  width="100%"/>
+        </div> 
+       </div>
 
       <div id="grails10" class="step slide" data-x="-2753" data-y="3231" data-scale="0.6">
  
@@ -243,8 +272,33 @@
  
       </div>     
 
-      <div id="grails12" class="step slide" data-x="-2093" data-y="2751" data-scale="0.6">
-  
+      <div id="grails12" class="step " data-x="-2093" data-y="2751" data-scale="0.6">
+        <div width ="60%" id="wordcloud" >
+            <span data-weight="9">syntax sugar</span>
+            <span data-weight="7">less punctuation</span>
+            <span data-weight="5">scripting </span>
+            <span data-weight="7">binding</span>
+            <span data-weight="3">no getter setter</span>
+            <span data-weight="7">map</span>
+            <span data-weight="8">named parameters</span>
+            <span data-weight="6">closure</span>
+            <span data-weight="4">GString</span>
+            <span data-weight="2">public visibility</span>
+            <span data-weight="1">return statement optional</span>
+            <span data-weight="7">groovy truth</span>
+            <span data-weight="3">operator overloading</span>
+            <span data-weight="4">GroovyMarkup</span>
+            <span data-weight="7">method pointer</span>
+            <span data-weight="6">runtime transformation</span>
+            <span data-weight="8">MOP</span>
+            <span data-weight="6">Expando</span>
+            <span data-weight="2">Categories</span>
+            <span data-weight="5">methodMissing</span>
+            <span data-weight="8">command chaining</span>
+            <span data-weight="7">compile time transformation</span>
+            <span data-weight="4">AST transformation</span>
+            <span data-weight="3">CST transformation</span>
+        </div>  
       </div>
 
       <!-- Conclusion -->
@@ -287,5 +341,22 @@ git push -u origin master<br/>
     <script src="js/prism.js"></script>
     <script src="js/impress.js"></script>
     <script>impress().init();</script>
+    <script>
+    var settings = {
+        "size" : {
+            "grid" : 22,
+            "factor" : 0, // font resize factor, 0 means automatic
+            "normalize" : true // reduces outliers for more attractive output
+        },
+        "options" : {
+            "color" : "random-dark",
+            "printMultiplier" : 1,
+            "rotationRatio" : 0, // 0 is all horizontal, 1 is all vertical
+            "printMultiplier" : 3 // set to 3 for nice printer output; higher numbers take longer
+        },
+        "shape" : "square"
+    };
+    $("#wordcloud").awesomeCloud( settings );
+    </script>
   </body>
 </html>
